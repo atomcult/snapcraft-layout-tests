@@ -1,0 +1,134 @@
+name: layout-test
+base: core22
+version: '0.1'
+summary: Single-line elevator pitch for your amazing snap # 79 char long summary
+description: |
+  This is my-snap's description. You have a paragraph or two to tell the
+  most important story about your snap. Keep it under 100 words though,
+  we live in tweetspace and your description wants to look good in the snap
+  store.
+
+grade: stable
+confinement: strict
+
+parts:
+  hello:
+    plugin: dump
+    source: ./src
+
+apps:
+  layout-test:
+    command: hello.sh
+
+# NOTE: Make sure you create the file /opt/exists and the
+#       directory /opt/dir-exists before testing
+layout:
+  ### bind ############################
+
+  # # bind to target that doesn't exist
+  # # WORKS
+  # /opt/does-not-exist:
+  #   bind: $SNAP/does-not-exist
+
+  # # bind to a file that does exist
+  # # FAILS
+  # # `cannot update snap namespace: cannot use "/snap/layout-test/x1/rel-link-exists" as bind-mount source: not a directory`
+  # #
+  # # /opt/does-not-exist-file:
+  # #   bind: $SNAP/exists
+
+  # # bind to a symlink (to a file)
+  # # FAILS
+  # # `cannot update snap namespace: cannot use "/snap/layout-test/x1/rel-link-exists" as bind-mount source: not a directory`
+  # #
+  # # /opt/does-not-exist-file-link:
+  # #   bind: $SNAP/rel-link-exists
+
+  # # bind to a symlink (to a dir)
+  # # FAILS
+  # # `cannot update snap namespace: cannot use "/snap/layout-test/x1/rel-link-dir-exists" as bind-mount source: not a directory`
+  # #
+  # # /opt/does-not-exist-dir-link:
+  # #   bind: $SNAP/rel-link-dir-exists
+
+  # # bind existing file to existing dir
+  # # WORKS
+  # /opt/exists:
+  #   bind: $SNAP/dir-exists
+
+  # # bind existing dir to existing dir
+  # # WORKS
+  # /opt/dir-exists:
+  #   bind: $SNAP/dir-exists
+
+
+  ### bind-file ############################
+
+  # # bind-file to target that doesn't exist
+  # # WORKS
+  # /opt/does-not-exist:
+  #   bind-file: $SNAP/does-not-exist
+
+  # # bind-file to a directory that does exist
+  # # FAILS
+  # # `cannot update snap namespace: cannot use "/snap/layout-test/x1/dir-exists" as bind-mount source: not a regular file`
+  # #
+  # # /opt/does-not-exist-dir:
+  # #   bind-file: $SNAP/dir-exists
+
+  # bind-file to a symlink (to a file)
+  # FAILS
+  # `cannot update snap namespace: cannot use "/snap/layout-test/x1/rel-link-exists" as bind-mount source: not a regular file`
+  # /opt/does-not-exist-file-link:
+  #   bind-file: $SNAP/rel-link-exists
+
+  # bind-file to a symlink (to a dir)
+  # FAILS
+  # `cannot update snap namespace: cannot use "/snap/layout-test/x1/rel-link-dir-exists" as bind-mount source: not a regular file`
+  #
+  # /opt/does-not-exist-dir-link:
+  #   bind-file: $SNAP/rel-link-dir-exists
+
+  # # bind-file existing file to existing file
+  # # WORKS
+  # /opt/exists:
+  #   bind-file: $SNAP/exists
+
+  # # bind-file existing dir
+  # # WORKS
+  # /opt/dir-exists:
+  #   bind-file: $SNAP/exists
+
+
+  ### symlink ##############################
+
+  # # symlink to target that doesn't exist
+  # # WORKS
+  # /opt/does-not-exist:
+  #   symlink: $SNAP/does-not-exist
+
+  # # symlink to a directory that does exist
+  # # WORKS
+  # /opt/does-not-exist-dir:
+  #   symlink: $SNAP/dir-exists
+
+  # # symlink to another symlink (to a file)
+  # # WORKS
+  # /opt/does-not-exist-file-link:
+  #   symlink: $SNAP/rel-link-exists
+
+  # # symlink to another symlink (to a dir)
+  # # WORKS
+  # /opt/does-not-exist-dir-link:
+  #   symlink: $SNAP/rel-link-dir-exists
+
+  # # symlink existing file to existing file
+  # # WORKS
+  # /opt/exists:
+  #   symlink: $SNAP/exists
+
+  # # symlink existing dir
+  # # WORKS
+  # /opt/dir-exists:
+  #   symlink: $SNAP/exists
+
